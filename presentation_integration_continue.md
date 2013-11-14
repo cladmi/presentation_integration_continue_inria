@@ -153,6 +153,16 @@ Copie des slides de la formation
     * Duplication de code
 * C'est que ce nom de variable ?
     * standard de codage
+* C'est quoi cet appel en BD dans la couche présentation
+    * adhérence à des règles de design
+
+### Bonnes pratiques ###
+
+* Mise en place au plus tôt dans le cycle de vie du projet.
+* "Commit" fréquents et fonctionnels
+* Toujours effectuer un build privé
+* Corriger les builds en échec le plus rapidement
+* Tout les tests et l'inspection de code doivent passer
 
 
 Plus plus
