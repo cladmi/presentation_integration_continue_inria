@@ -316,7 +316,6 @@ Intégration mise en place
 * Tests fonctionnels exécutés sur cible embarquée == les cartes réelles
 * Un seul point d'entrée: fichier `setuptools`: 'tests' 'integration' 'install'
 * Installation automatique des dépendances Python
-* Possibilité de générer un fichiers .tar.gz pour installer le code: 'python setup.py install'
 
 <html><div style="page-break-before:always">&nbsp;</div></html>
 
@@ -325,24 +324,22 @@ Bilan
 
 ### Produit ###
 
-* On pourra déployer le code en production dès que le matériel sera là
-* Maîtrise et confiance dans le produit développé (Je sais ce qui marche!)
+* Maîtrise et confiance dans le produit développé
+* Ajout au fur et à mesure des fonctionnalités, développement incrémental
 * Gros problèmes de fond trouvés très tôt
     * problème de performance en python -> migration en C de la partie problématique
     * Lancement en utilisateur non root
-    * Détection de bugs matériels
-* Utilisations d'outils 'standards' et éprouvés: tests, packaging
-* Ajout au fur et à mesure des fonctionnalités, incrémental
+
 
 ### Personnel ###
 
-* Projet trop gros pour y faire face seul, sans tests corrects
-* Envie de me confronter à la mise en place de l'intégration continue
-* Maîtrise accrue sur mon projet, son déploiement, ses limites
-
 * Investissement à faire, lourd, complexe (beaucoup de nouveaux outils)
-    * Le résultat en vaut l'investissement, quand je change un truc, j'ai confiance dans ce que je fais
-
+    * commencer au plus tôt
+    * Mise en place et apprentissage au fur et à mesure
+* Projet trop gros et complexe pour ne pas avoir de tests
+    * Le résultat en vaut l'investissement
+* Envie de faire la mise en place de l'intégration continue, 
+* découverte d'outils de tests standards
 
 
 
