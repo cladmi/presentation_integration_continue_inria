@@ -79,6 +79,8 @@ Script __automatisé__ et __autotesté__ qui va réaliser
 
 ### Intégration continue ###
 
+(rappel 'Intégration' par l'équipe)
+
 L'intégration continue va consister à réaliser cette étape de `build` de
 manière automatique dès qu'un nouveau changement est publié sur
 le gestionnaire de source.
@@ -92,7 +94,9 @@ un clone de l'environnement de production.
 Pourquoi l'intégration continue
 -------------------------------
 
-But: améliorer la qualité du code et détecter les problèmes au plus tôt.
+But: améliorer la qualité du code (produi final) et détecter les problèmes au plus tôt.
+
+* Pas trouver TOUT les problèmes, mais en trouver les plus possible dès que possible (=> environnement == production)
 
 
 Problèmes classiques:
@@ -107,10 +111,15 @@ Problèmes classiques:
 
 * Lancement répété des tests => probabilité plus grande de trouver des problèmes rares
 
+* Régression du code! (éviter)
+
 * visibilité sur le niveau de test du projet, couverture de code,
     * testabilité
     * maintenabilité
     * sources des erreurs habituelles => trouver une solution en amont
+
+
+* 'commun' => si un des équipiers part, l'infra reste, marche pour TOUT le monde et pas que pour moi
 
 
 
