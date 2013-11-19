@@ -230,7 +230,6 @@ L'intégration continue à Inria
 Le service proposé par Inria
 ----------------------------
 
-![platform_ic_inria.png](platform_ic_inria_50_p.png)
 
 IMAGE: les composants de l'intégration continue
 
