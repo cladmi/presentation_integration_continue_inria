@@ -343,3 +343,36 @@ Bilan
 
 
 
+<html><div style="page-break-before:always">&nbsp;</div></html>
+Partie 3
+========
+
+'Depuis son bureau'
+
+Contexte de dev
+=> interfaces: Fred et code contrôle node / open node
+=> tailles de lignes
+=> préservation de l'API à tout moment
+
+Ajouter des Schémas
+
+Création d'un middleware logiciel
+
+Contraintes
+
+Déterminisme de mon code: multithreadé, non determinisme, syncro, timing, communication avec du matériel
+Seul de mon côté, mais interfacé avec 2 autres développement.
+Plateforme va durer 10 ans, je serai plus là, maintenable par qqn d'autre
+
+ENlever lien au matériel
+
+
+Mise en place
+-------------
+
+Tableau outils mis en place
+=> pas les dire, mais les mettre dans un tableau
+=> dire ce qu'ils font niveau fonctionnalités
+
+Mettre un exemple en Python et en C
+
