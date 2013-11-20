@@ -1,29 +1,26 @@
+DOCUMENT     = presentation_integration_continue
+THEME_FOLDER = inria-doc-style
+OBJS_FOLDER  = bin
+
+###
+
 TEX2PDF		=pdflatex
 TEX2PDF_OPTS	=-halt-on-error
-TEX		=latex
-DVI2PS		=dvips
 
 ###
 
+all : $(DOCUMENT).pdf
 .PHONY: FORCE
-all : example_en.pdf
 
-example_en.pdf : FORCE
-example_en.dvi : FORCE
-example_en.ps  : FORCE
-
-###
-# %.dvi : %.tex is already defined by GNU/Make
-#
-%.pdf : %.tex
-	$(TEX2PDF) $(TEX2PDF_OPTS) $< && $(TEX2PDF) $<
-
-%.ps : %.dvi
-	$(DVI2PS) $<
+%.pdf : %.tex  $(OBJS_FOLDER) FORCE
+	TEXINPUTS=".:$(THEME_FOLDER):" $(TEX2PDF) $(TEX2PDF_OPTS) --output-directory=$(OBJS_FOLDER) $<
+	cp $(OBJS_FOLDER)/$@ $@
 
 
+$(OBJS_FOLDER):
+	mkdir $(OBJS_FOLDER)
 clean:
-	$(RM) *~ *.pdf *.dvi *.ps
-	$(RM) *.aux *.nav *.toc *.log *.snm *.out
+	$(RM) *.pdf
+	$(RM) -r $(OBJS_FOLDER)
 
 

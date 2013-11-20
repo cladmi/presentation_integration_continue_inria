@@ -1,4 +1,5 @@
-presentation_integration_continue_inria
+Présentation integration continue Inria
 =======================================
 
-Presentation IJD integration continue
+Présentation IJD de l'integration continue
+
