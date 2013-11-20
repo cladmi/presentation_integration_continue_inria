@@ -3,21 +3,22 @@
 \documentclass[9pt]{beamer}
 \usepackage[utf8]{inputenc}
 \usetheme{inria}
-%\input{./inria-doc-style/inria-theme.tex}
 \usepackage{helvet}
-\author{John Doe}
+\usepackage{comment}
+\author{Maurice Bremond \and Gaëtan Harter}
 
-\title[SHORTITLE]{the title \\[2mm] and its continuation}
-\subtitle{subtitle}
+\title[Intégration continue]{L'Intégration Continue}
+% \subtitle{Dans un contexte de développement Inria}
+\subtitle{Présentation IJD}
+
 
 
 % Automatically insert a "new section" page at each section.
 \AtBeginSection[]{
   \begin{frame}[plain]
     \partpage
-  \end{frame} 
+  \end{frame}
 }
-
 % \inriaswitchcolors COLOR
 %
 % Where COLOR is one of red, blue, orange, darkblue, violet,
@@ -27,28 +28,62 @@
 \pgfaliasimage{figbackground}{figbackground-#1}% !!!
 \pgfaliasimage{figbackground}{figbackground-#1}% !!!
 }
-
-\begin{document}
-
 % starting the document
 % *********************
-
+\begin{document}
 % titlepage
 % ---------
 \begin{frame}[plain]
 \titlepage
 \end{frame}
-
 % table of contents
 % -----------------
-\begin{frame}{\textcolor{inriaGrey}{Contents}}
+\begin{frame}{\textcolor{inriaGrey}{Table des matières}}
   \tableofcontents
 \end{frame}
 
-% original template slides
-% ************************
- 
-\section{Imported slides from the original template}
+
+
+% Introduction
+% ************
+
+\inriaswitchcolors{red}
+\section{Quid de l'intégration continue}
+
+\subsection{Qu'est-ce que c'est}
+\begin{frame}{Qu'est-ce que c'est}
+
+Contenu
+
+\end{frame}
+
+
+
+% L'intégration continue à Inria
+% ******************************
+\inriaswitchcolors{blue}
+\section{L'intégration continue à Inria}
+
+
+
+
+
+% Retour d'expérience
+% *******************
+\inriaswitchcolors{green}
+\section{Retour d'expérience}
+
+
+
+
+
+
+
+%%%%%%
+\begin{comment}
+% comment a whole section (until the end)
+% I keep the rest of the document to pick beamer examples
+%%%%%%
 
 % Introduction slide
 % ------------------
@@ -107,7 +142,7 @@ Goal: testing the footline.
 \subsection{Headline}
 \begin{frame}{Frametitle}{Framesubtitle}
 Goal: testing the frametitle.\\
-Added Feature: Framesubtitle 
+Added Feature: Framesubtitle
 \end{frame}
 
 % inner theme
@@ -163,6 +198,9 @@ Added Feature: Framesubtitle
  \end{exampleblock}
 \end{frame}
 
+
+
+
 % color change
 % ************
 
@@ -171,8 +209,8 @@ Added Feature: Framesubtitle
 % \pgfaliasimage{<figname>}{<figname>-<color>}
 %
 % where <figname> is "figbackground" or "figfootline"
-% and   <color>   is 
-% red, blue, orange, darkblue, 
+% and   <color>   is
+% red, blue, orange, darkblue,
 % violet, pastelgreen, grey or green.
 
 % helper commands for this section
@@ -199,7 +237,7 @@ Added Feature: Framesubtitle
 }
 
 
-% the new section and its partpage 
+% the new section and its partpage
 \section{Testing color change}
 
 % testing footline
@@ -233,6 +271,14 @@ Added Feature: Framesubtitle
 \testcolortitlepage{pastelgreen}
 \testcolortitlepage{grey}
 \testcolortitlepage{green}
+
+
+%%%%%%
+\end{comment}
+% comment a whole section
+%%%%%%
+
+
 
 
 \end{document}

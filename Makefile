@@ -13,7 +13,9 @@ all : $(DOCUMENT).pdf
 .PHONY: FORCE
 
 %.pdf : %.tex  $(OBJS_FOLDER) FORCE
-	TEXINPUTS=".:$(THEME_FOLDER):" $(TEX2PDF) $(TEX2PDF_OPTS) --output-directory=$(OBJS_FOLDER) $<
+	TEXINPUTS=".:$(THEME_FOLDER):" $(TEX2PDF) $(TEX2PDF_OPTS) --output-directory=$(OBJS_FOLDER) $< && \
+	  TEXINPUTS=".:$(THEME_FOLDER):" $(TEX2PDF) --output-directory=$(OBJS_FOLDER) $< && \
+	  TEXINPUTS=".:$(THEME_FOLDER):" $(TEX2PDF) --output-directory=$(OBJS_FOLDER) $<
 	cp $(OBJS_FOLDER)/$@ $@
 
 
