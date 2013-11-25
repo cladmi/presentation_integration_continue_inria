@@ -28,6 +28,18 @@
   \pgfaliasimage{figbackground}{figbackground-#1}% !!!
   \pgfaliasimage{figbackground}{figbackground-#1}% !!!
 }
+
+% frame with toc for current subsection
+\newcommand{\tocsubsection}{
+  \begin{frame}
+    \tableofcontents[
+      currentsubsection,
+      sectionstyle=show/shaded,
+      subsectionstyle=show/shaded,
+      subsubsectionstyle=show/show/shaded
+    ]
+  \end{frame}
+}
 % starting the document
 % *********************
 \begin{document}
@@ -51,7 +63,7 @@
 \section{Quid de l'intégration continue}
 
 \subsection{Qu'est-ce que c'est}
-\begin{frame}{Qu'est-ce que c'est}
+\begin{frame}{\subsecname}
 
   Contenu
 
@@ -74,7 +86,7 @@
 \frame{\tableofcontents[currentsection]}
 
 \subsection{Contexte de développement}
-\frame{\tableofcontents[currentsubsection,sectionstyle=show/shaded,subsectionstyle=show/shaded,subsubsectionstyle=show/show/shaded]}
+\tocsubsection
 
 \subsubsection{Plateforme de réseau de capteurs: FIT IOT-LAB}
 \begin{frame}{\subsubsecname} %{\subsecname}
@@ -121,16 +133,17 @@
 
 
 \subsection{Outils mis en place}
-\frame{\tableofcontents[currentsubsection,sectionstyle=show/shaded,subsectionstyle=show/shaded,subsubsectionstyle=show/show/shaded]}
+\tocsubsection
 
 \subsubsection{Présentation des outils}
 \begin{frame}{Outils mis en place}
 
-  Gestionnaire de versions: \texttt{git}
-  \begin{tabular}{ l | l l l }
-    Language         & \texttt{Python}     & \texttt{C}    & Jenkins \\ \hline
-    Script de build  & \texttt{setuptools} & \texttt{Make} & Bash shell, \texttt{EnvInject}\\
-    Compilation      & ~                   & \texttt{gcc}  & \texttt{virtualenv} \\
+  Gestionnaire de versions: \texttt{git} \\ ~ \\
+
+  \begin{tabular}{ l | l l | p{3.5cm} }
+    Language         & \texttt{Python}     & \texttt{C}    & Utilisation dans Jenkins \\ \hline
+    Script de build  & \texttt{setuptools} & \texttt{Make} & Bash~shell, \texttt{EnvInject} \texttt{virtualenv}\\
+    Compilation      & ~                   & \texttt{gcc}  & ~ \\
     Tests            & \texttt{unittest}, \texttt{mock}, \texttt{nose}
                      & \texttt{gtest} \texttt{(C++)}
                      & Junit, Chuck Norris\\
@@ -138,7 +151,7 @@
                      & \texttt{gcov}, \texttt{gcovr}
                      & Cobertura \\
    Qualité de code  & \texttt{pylint}, \texttt{pep8} & ~  & Violations \\
-    \\
+    ~ & ~  & ~ & \\
     Lignes de code   &  $3000$        &  $1500$  &  $0$  \\
     Lignes de tests  &  $1600 + 400$  &  $1300$  &  $0$  \\
 % 1600 tests U + 400 tests intégration
@@ -159,8 +172,18 @@
 \end{frame}
 
 
+\begin{frame}{Cobertura}{Jenkins}
+        % Pour moi, l'outil le plus important (après Chuck Norris forcément)
+  \includegraphics[width=\linewidth]{images/cobertura}\\
+\end{frame}
+\begin{frame}{Junit - Violations}{Jenkins}
+  \begin{center}
+        % Juste pour montrer
+    \includegraphics[height=0.8\textheight]{images/junit_violations}\\
+  \end{center}
+\end{frame}
 \begin{frame}{Chuck Norris}{Jenkins}
-% Le plus important des plugins
+  % Le plus important des plugins
   \begin{center}
     \begin{tabular}{ l |l }
       Build KO & Build OK \\ \hline
@@ -178,21 +201,11 @@
   \end{itemize}
 \end{frame}
 
-\begin{frame}{Cobertura}{Jenkins}
-        % Pour moi, l'outil le plus important (après Chuck Norris forcément)
-  \includegraphics[width=\linewidth]{images/cobertura}\\
-\end{frame}
-\begin{frame}{Junit - Violations}{Jenkins}
-  \begin{center}
-        % Juste pour montrer
-    \includegraphics[height=0.8\textheight]{images/junit_violations}\\
-  \end{center}
-\end{frame}
 
 
 
 \subsection{Bilan}
-\frame{\tableofcontents[currentsubsection,sectionstyle=show/shaded,subsectionstyle=show/shaded,subsubsectionstyle=show/show/shaded]}
+\tocsubsection
 
 
 \subsubsection{Développement logiciel}
