@@ -14,12 +14,15 @@
 \tikzset{
   mstep1/.style = {basic, rounded corners=2pt, thin, align=center, fill=orange!70,text width=1.5cm},
   mstep2/.style = {basic, rounded corners=2pt, thin, align=center, fill=green!30,text width=1.5cm},
+  mstep3/.style = {basic, rounded corners=2pt, thin, align=center, fill=green!30,text width=5cm},
+  mstep4/.style = {basic, thin, align=left, fill=gray!60, text width=6.5em},
   basic/.style  = {draw, text width=2cm, drop shadow, font=\sffamily, rectangle},
   root/.style   = {basic, rounded corners=2pt, thin, align=center,
   fill=green!30},
   level 2/.style = {basic, rounded corners=6pt, thin,align=center, fill=green!60,
   text width=8em},
-  level 3/.style = {basic, thin, align=left, fill=pink!60, text width=6.5em}
+  level 3/.style = {basic, thin, align=left, fill=orange!60, text width=6.5em},
+  mlevel4/.style = {basic, thin, align=left, fill=gray!60, text width=6.5em}
 }
 \tikzstyle{every picture}+=[remember picture]
 \tikzstyle{na} = [baseline=-.5ex]
@@ -194,19 +197,7 @@
 
 \end{frame}
 
-\begin{frame}{Automatisation de l'étape de test}
-\begin{block}{Quelques éléments}
-  \begin{itemize}
-  \item respect des rêgles de codage : pep8 (python), KWStyle (c++)
-  \item analyse statique    : pylint, clang static analyzer
-  \item analyse dynamique   : valgrind
-  \item tests unitaires : cppunit (c++), unittest, pytest (python),junit (java)
-  \item \dots
-  \end{itemize}
-\end{block}
-\end{frame}
-
-\begin{frame}{L'automatisation}
+\begin{frame}{L'automatisation de l'étape de tests}
 
 %
 %    2.1 Maintain a code repository
@@ -227,39 +218,32 @@
     >=latex]
 
 % root of the the initial tree, level 1
-    \node[root] {Intégration Continue}
+    \node[root] {tests}
 % The first level, as children of the initial tree
     child {node[level 2] (c1) {code source}}
-    child {node[level 2] (c2) {compilation (``build'')}}
-    child {node[level 2] (c3) {sorties}};
+    child {node[level 2] (c2) {exécutable}};
+
 
 % The second level, relatively positioned nodes
     \begin{scope}[every node/.style={level 3}]
-      \node [below of = c1, xshift=15pt] (c11) {versioné : git,svn,\dots};
-      \node [below of = c11] (c12) {``commits'' journaliers};
-      \node [below of = c12] (c13) {tous les ``commits'' sont compilés};
+      \node [below of = c1, xshift=15pt] (c11) {rêgles de codages};
+      \node [below of = c11] (c12) {analyses statiques};
 
-      \node [below of = c2, xshift=15pt] (c21) {automatisé};
-      \node [below of = c21] (c22) {rapide};
-      \node [below of = c22] (c23) {};
-      \node [below of = c23] (c24) {Using overlays};
-
-      \node [below of = c3, xshift=15pt] (c31) {Les résultats des compilations et tests doivent être partagés};
-      \node [below of = c31] (c32) {Les délivrables doivent être obtenus facilement};
-      \node [below of = c32] (c33) {le déploiement doit être a};
-      \node [below of = c33] (c34) {Shortening};
-      \node [below of = c34] (c35) {Bending};
+      \node [below of = c2, xshift=15pt] (c21) {tests unitaires};
+      \node [below of = c21,mstep4] (c22) {tests fonctionnels};
+      \node [below of = c22,mstep4] (c23) {tests systèmes};
+      \node [below of = c23,mstep4] (c24) {tests de performances};
+      \node [right of = c21,xshift=2cm] (dynamic_analysis) {analyses dynamiques};
     \end{scope}
 
 % lines from each level 1 node to every one of its "children"
-    \foreach \value in {1,2,3}
+    \foreach \value in {1,2}
     \draw[->] (c1.195) |- (c1\value.west);
 
     \foreach \value in {1,...,4}
     \draw[->] (c2.195) |- (c2\value.west);
 
-    \foreach \value in {1,...,5}
-    \draw[->] (c3.195) |- (c3\value.west);
+
     % \node [draw,rectangle,fill=gray] at (8,0) {Intégration continue}
     % child {node [draw,rectangle,fill=gray] {compilations automatiques}}
     % child {node [draw,rectangle,fill=gray] {tests automatiques}}
