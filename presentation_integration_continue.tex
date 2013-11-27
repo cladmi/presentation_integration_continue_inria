@@ -92,106 +92,119 @@
 \inriaswitchcolors{red}
 \section{Quid de l'intégration continue}
 
-\begin{frame}{Problématiques}
-  \begin{block}{problématiques}
-    \begin{itemize}
-      \item quel compilateur, quels arguments
-      \item dépendances entre fichiers sources
-      \item éditions de liens avec les librairies externes
-      \item \dots
-    \end{itemize}
-  \end{block}
-  \begin{block}{des moteurs de production}
-    \begin{itemize}
-      \item make
-      \item autotools
-      \item cmake
-      \item scons
-      \item qmake
-      \item \dots
-    \end{itemize}
-  \end{block}
-\end{frame}
-
-\begin{frame}{Le test}
-  \begin{block}{}
-    \begin{itemize}
-      \item analyse statique    : pep8, pylint, clang static analyzer
-      \item analyse dynamique   : valgrind
-      \item unitaire
-      \item \dots
-    \end{itemize}
-  \end{block}
-  \begin{block}{Tests unitaires des outils}
-    \begin{itemize}
-      \item cppunit
-      \item unittest, pytest
-      \item junit
-      \item \dots
-    \end{itemize}
-  \end{block}
-\end{frame}
-
-
 \subsection{Qu'est-ce que c'est}
-\begin{frame}{}
-  \begin{block}{Intégration}
-    \begin{itemize}
-      \item mise en oeuvre de la chaine de test et de production d'un logiciel
-    \end{itemize}
-    \begin{tikzpicture}
-      \node[] (developer1) {\includegraphics[width=.04\textwidth] {images/Laptop-icon.png}};
-      \node[below=.001cm of developer1] (developer2) {\includegraphics[width=.04\textwidth] {images/Laptop-icon.png}};
-      \node[below=.001cm of developer2] (developer3) {\includegraphics[width=.04\textwidth] {images/Laptop-icon.png}};
-      \node[right=1.3cm of developer2] (code_repo_db) {};
-      \node[above=.4cm of code_repo_db] (code_repo_db_north) {};
-      \node[left=.2cm of code_repo_db] (code_repo_db_west) {};
-      \node[below=.1cm of code_repo_db] (code_repo_db_south) {};
-      \node[below=.9cm of code_repo_db,mstep1] (code_repo) {gestion de versions};
-      \aboxl[25,20,1.6,a1,(code_repo_db)] {};
-      \node[right=.6cm of code_repo,mstep2] (build) {fabrication};
-      \node[above=.4cm of build] (nux) {\includegraphics[width=.04\textwidth] {images/Linux-icon.png}};
-      \node[above=.001cm of nux] (windows) {\includegraphics[width=.04\textwidth] {images/Windows-icon.png}};
-      \node[above=.001cm of windows] (freebsd) {\includegraphics[width=.04\textwidth] {images/Apps-freebsd-icon.png}};
-      \node[right=.6cm of build,mstep2] (tests) {tests};
-      \node[above=.4cm of tests] (test_ok1) {\includegraphics[width=.02\textwidth] {images/accept-icon.png}};
-      \node[above=.001cm of test_ok1] (test_ok2) {\includegraphics[width=.02\textwidth] {images/accept-icon.png}};
-      \node[above=.001cm of test_ok2] (test_bad1) {\includegraphics[width=.02\textwidth] {images/delete-icon.png}};
-      \node[above=.001cm of test_bad1] (test_ok4) {\includegraphics[width=.02\textwidth] {images/accept-icon.png}};
-      \node[right=.001cm of test_ok1] (test_bad1) {\includegraphics[width=.02\textwidth] {images/delete-icon.png}};
-      \node[right=.001cm of test_ok2] (test_ok3) {\includegraphics[width=.02\textwidth] {images/accept-icon.png}};
-      \node[right=.6cm of tests,mstep2] (install) {installation paquetage};
-      \node[above=.4cm of install] (package) {\includegraphics[width=.06\textwidth] {images/System-Package-icon.png}};
-      \path[<->, thick, color=blue] (developer1) edge [bend left] (code_repo_db_north);
-      \path[<->, thick, color=blue] (developer2) edge [] (code_repo_db_west);
-      \path[<->, thick, color=blue] (developer3) edge [bend right] (code_repo_db_south);
-      \path[->, thick, color=gray,dotted] (code_repo.east) edge [] (build.west);
-      \path[->, thick, color=gray,dotted] (build) edge [] (tests);
-      \path[->, thick, color=gray,dotted] (tests) edge [] (install);
-    \end{tikzpicture}
-  \end{block}
-  \begin{block}{en continu}
-    \begin{itemize}
-      \item à chaque nouvelle version pour les tests rapides
-      \item régulièrement : chaque nuit, chaque semaine pour les tests longs.
-    \end{itemize}
-  \end{block}
-  \begin{block}{Pourquoi ?}
-    Un cycle court pour traiter au plus tôt les problèmes :
-    \begin{itemize}
-      \item les régressions
-      \item les codes difficiles à fusionner
-      \item cf extrem programming
-    \end{itemize}
 
-    Cela suppose d'être \textbf{actif} ! sinon c'est sans intérêt\dots
-
-  \end{block}
+\begin{frame}{En quelques mots}
+\begin{block}{Le processus d'intégration d'un logiciel : une chaine de production}
+\begin{tikzpicture}
+  \node[] (developer1) {\includegraphics[width=.04\textwidth] {images/Laptop-icon.png}};
+  \node[below=.001cm of developer1] (developer2) {\includegraphics[width=.04\textwidth] {images/Laptop-icon.png}};
+  \node[below=.001cm of developer2] (developer3) {\includegraphics[width=.04\textwidth] {images/Laptop-icon.png}};
+  \node[right=1.3cm of developer2] (code_repo_db) {};
+  \node[above=.4cm of code_repo_db] (code_repo_db_north) {};
+  \node[left=.2cm of code_repo_db] (code_repo_db_west) {};
+  \node[below=.1cm of code_repo_db] (code_repo_db_south) {};
+  \node[below=.9cm of code_repo_db,mstep1] (code_repo) {gestion de versions};
+  \aboxl[25,20,1.6,a1,(code_repo_db)] {};
+  \node[right=.6cm of code_repo,mstep2] (build) {production (``build'')};
+  \node[above=.4cm of build] (nux) {\includegraphics[width=.04\textwidth] {images/Linux-icon.png}};
+  \node[above=.001cm of nux] (windows) {\includegraphics[width=.04\textwidth] {images/Windows-icon.png}};
+  \node[above=.001cm of windows] (freebsd) {\includegraphics[width=.04\textwidth] {images/Apps-freebsd-icon.png}};
+  \node[right=.6cm of build,mstep2] (tests) {tests};
+  \node[above=.4cm of tests] (test_ok1) {\includegraphics[width=.02\textwidth] {images/accept-icon.png}};
+  \node[above=.001cm of test_ok1] (test_ok2) {\includegraphics[width=.02\textwidth] {images/accept-icon.png}};
+  \node[above=.001cm of test_ok2] (test_bad1) {\includegraphics[width=.02\textwidth] {images/delete-icon.png}};
+  \node[above=.001cm of test_bad1] (test_ok4) {\includegraphics[width=.02\textwidth] {images/accept-icon.png}};
+  \node[right=.001cm of test_ok1] (test_bad1) {\includegraphics[width=.02\textwidth] {images/delete-icon.png}};
+  \node[right=.001cm of test_ok2] (test_ok3) {\includegraphics[width=.02\textwidth] {images/accept-icon.png}};
+  \node[right=.6cm of tests,mstep2] (install) {installation paquetage};
+  \node[above=.4cm of install] (package) {\includegraphics[width=.06\textwidth] {images/System-Package-icon.png}};
+  \path[<->, thick, color=blue] (developer1) edge [bend left] (code_repo_db_north);
+  \path[<->, thick, color=blue] (developer2) edge [] (code_repo_db_west);
+  \path[<->, thick, color=blue] (developer3) edge [bend right] (code_repo_db_south);
+  \path[->, thick, color=gray,dotted] (code_repo.east) edge [] (build.west);
+  \path[->, thick, color=gray,dotted] (build) edge [] (tests);
+  \path[->, thick, color=gray,dotted] (tests) edge [] (install);
+\end{tikzpicture}
+\end{block}
+\begin{block}{En ``continu''}
+\begin{itemize}
+\item Une nouvelle contribution met en oeuvre toute la chaine de production
+\item et/ou régulièrement : intégration nocturne, hebdomadaire
+\end{itemize}
+\end{block}
 \end{frame}
 
+\begin{frame}{}
 
+  \begin{block}{Pourquoi ?}
+    Un cycle court pour traiter au plus tôt les problèmes
+    \begin{itemize}
+    \item les régressions dans les tests
+    \item les régressions dans la portabilité
+    \item les codes difficiles à fusionner 
+    \item \dots
+  \end{itemize}
+  
+  \textbf{L'intégration continue est liée à une méthode de travail}
+  
+\end{block}
 
+\begin{block}{Ce que cela implique :}
+\begin{itemize}
+\item les différentes étapes de la chaine doivent être \textbf{automatisées} : production, tests, paquetage
+\item un moteur doit permettre de déclencher chaque étape
+\item une synthèse des résultats doit être disponible
+\end{itemize}
+\end{block}
+\end{frame}
 
+\begin{frame}{Automatisation de l'étape de production}
+\begin{columns}[t]
+ \column{.7\textwidth}
+\begin{block}{problématiques intrinsèques}
+  \begin{itemize}
+  \item dépendances entre fichiers sources et cibles compilées
+  \item rêgles de compilation
+  \item cible ``debug'', cible optimisée
+  \item type de librairie : partagée, statique
+  \item \dots
+  \end{itemize}
+\end{block}
+\begin{block}{problématiques liées à l'environnement système}
+  \begin{itemize}
+  \item quel compilateur, quel ``runtime'' ?
+  \item quels arguments ?
+  \item éditions de liens avec les librairies externes
+  \item \dots
+  \end{itemize}
+\end{block}
+ \column{.3\textwidth}
+\begin{block}{des moteurs de production}
+  \begin{itemize}
+  \item make
+  \item autotools
+  \item cmake
+  \item scons
+  \item qmake
+  \item \dots
+  \end{itemize}
+\end{block}
+\end{columns}
+
+\end{frame}
+
+\begin{frame}{Automatisation de l'étape de test}
+\begin{block}{Quelques éléments}
+  \begin{itemize}
+  \item respect des rêgles de codage : pep8 (python), KWStyle (c++)
+  \item analyse statique    : pylint, clang static analyzer
+  \item analyse dynamique   : valgrind
+  \item tests unitaires : cppunit (c++), unittest, pytest (python),junit (java)
+  \item \dots
+  \end{itemize}
+\end{block}
+\end{frame}
 
 \begin{frame}{L'automatisation}
 
@@ -299,9 +312,10 @@
 \end{frame}
 
 \begin{frame}{Gestion simple des machines virtuelles associées}
-  \begin{tikzpicture}
-    \node[] (project)  {\includegraphics[width=1.2\textwidth] {images/ci-slaves.png}};
-  \end{tikzpicture}
+
+\begin{tikzpicture}
+ \node[] (project)  {\includegraphics[width=.9\textwidth] {images/ci-slaves.png}};
+\end{tikzpicture}
 \end{frame}
 
 \begin{frame}{Création d'une nouvelle machine}
@@ -318,15 +332,13 @@
 \end{frame}
 
 \begin{frame}{Accès direct au gestionnaire sous-jacent : cloudstack/machine}
-  \begin{tikzpicture}
-    \node[] (windows_conf)  {\includegraphics[width=1.2\textwidth] {images/cloudstack-windows-conf.png}};
-    \node[draw,ellipse,minimum height=.8cm,minimum width=.8cm,thick,color=red] at (2.3,1.6) (select) {};
-    \node[] at (-4,-0.4) (windows_desktop) {\includegraphics[width=.4\textwidth] {images/cloudstack-windows-desktop.png}};
-    \path[->, thick, color=red] (select.south) edge [bend left] (windows_desktop.east);
-
-  \end{tikzpicture}
+\begin{tikzpicture}
+ \node[] (windows_conf)  {\includegraphics[width=1.2\textwidth] {images/cloudstack-windows-conf.png}};
+ \node[draw,ellipse,minimum height=.8cm,minimum width=.8cm,thick,color=red] at (2.3,1.6) (select) {};
+ \node[draw,rectangle,thick,color=red,rounded corners=2pt] at (-4,-0.4) (windows_desktop) {\includegraphics[width=.4\textwidth] {images/cloudstack-windows-desktop.png}};
+ \path[->, thick, color=red] (select.south) edge [bend left] (windows_desktop.east);
+\end{tikzpicture}
 \end{frame}
-
 
 
 % Retour d'expérience
