@@ -89,6 +89,47 @@
 \inriaswitchcolors{red}
 \section{Quid de l'intégration continue}
 
+\begin{frame}{Problématiques}
+\begin{block}{problématiques}
+  \begin{itemize}
+  \item quel compilateur, quels arguments
+  \item dépendances entre fichiers sources
+  \item éditions de liens avec les librairies externes
+  \item \dots
+  \end{itemize}
+\end{block}
+\begin{block}{des moteurs de production}
+  \begin{itemize}
+  \item make
+  \item autotools
+  \item cmake
+  \item scons
+  \item qmake
+  \item \dots
+  \end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}{Le test}
+\begin{block}{}
+  \begin{itemize}
+  \item analyse statique    : pep8, pylint, clang static analyzer
+  \item analyse dynamique   : valgrind
+  \item unitaire
+  \item \dots
+  \end{itemize}
+\end{block}
+\begin{block}{Tests unitaires des outils}
+  \begin{itemize}
+  \item cppunit
+  \item unittest, pytest
+  \item junit
+  \item \dots
+  \end{itemize}
+\end{block}
+\end{frame}
+
+
 \subsection{Qu'est-ce que c'est}
 \begin{frame}{}
 \begin{block}{Intégration}
@@ -133,53 +174,19 @@
 \end{itemize}
 \end{block}
 \begin{block}{Pourquoi ?}
+  Un cycle court pour traiter au plus tôt les problèmes :
   \begin{itemize}
-  \item réduire le coût du ``merge''
-  \item éviter au plus tôt les régressions
+  \item les régressions 
+  \item les codes difficiles à fusionner 
   \item cf extrem programming
   \end{itemize}
+
+  Cela suppose d'être \textbf{actif} ! sinon c'est sans intérêt\dots
+
 \end{block}
 \end{frame}
 
-\begin{frame}{La fabrication}
-\begin{block}{problématiques}
-  \begin{itemize}
-  \item quel compilateur, quels arguments
-  \item dépendances entre fichiers sources
-  \item éditions de liens avec les librairies externes
-  \item \dots
-  \end{itemize}
-\end{block}
-\begin{block}{des moteurs de production}
-  \begin{itemize}
-  \item make
-  \item autotools
-  \item cmake
-  \item scons
-  \item qmake
-  \item \dots
-  \end{itemize}
-\end{block}
-\end{frame}
 
-\begin{frame}{Le test}
-\begin{block}{}
-  \begin{itemize}
-  \item analyse statique    : pep8, pylint, clang static analyzer
-  \item analyse dynamique   : valgrind
-  \item unitaire
-  \item \dots
-  \end{itemize}
-\end{block}
-\begin{block}{Tests unitaires des outils}
-  \begin{itemize}
-  \item cppunit
-  \item unittest, pytest
-  \item junit
-  \item \dots
-  \end{itemize}
-\end{block}
-\end{frame}
 
 
 
@@ -275,14 +282,46 @@
 \begin{tikzpicture}
   \node[] (root) {};
   \node[below=3.5cm of root] (root_south) {};
-  \node[] (cimain)  {\includegraphics[width=.9\textwidth] {images/cimain.png}};
-  \node[right=1.1cm of root_south] (cidoc)  {\includegraphics[width=.9\textwidth] {images/cidoc.png}};
-  \node[draw,ellipse,minimum height=.8cm,minimum width=2.5cm,thick,color=red] at (.7,0.8) (ok) {};
+  \node[] (ci_main)  {\includegraphics[width=.9\textwidth] {images/ci-main.png}};
+  \node[right=1.1cm of root_south,draw,rectangle,thick,drop shadow,color=gray,rounded corners=2pt] (ci_doc)  {\includegraphics[width=.9\textwidth] {images/ci-doc.png}};
+  \node[draw,ellipse,minimum height=.8cm,minimum width=2.5cm,thick,color=red] at (.7,0.9) (ok) {};
   \path[->, thick, color=red] (.6,.2) edge [bend right] (.9,-.2);
 \end{tikzpicture}
 \end{frame}
 
-\begin{frame}
+\begin{frame}{Un projet}
+\begin{tikzpicture}
+ \node[] (project)  {\includegraphics[width=1.2\textwidth] {images/ci-project.png}};
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}{Gestion simple des machines virtuelles associées}
+\begin{tikzpicture}
+ \node[] (project)  {\includegraphics[width=1.2\textwidth] {images/ci-slaves.png}};
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}{Création d'une nouvelle machine}
+\begin{tikzpicture}
+ \node[] (project)  {\includegraphics[width=.9\textwidth] {images/new-slave.png}};
+\end{tikzpicture}
+\end{frame}
+
+
+\begin{frame}{Accès direct au gestionnaire sous-jacent : cloudstack}
+\begin{tikzpicture}
+ \node[] (project)  {\includegraphics[width=1.2\textwidth] {images/cloudstack-main.png}};
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}{Accès direct au gestionnaire sous-jacent : cloudstack/machine}
+\begin{tikzpicture}
+ \node[] (windows_conf)  {\includegraphics[width=1.2\textwidth] {images/cloudstack-windows-conf.png}};
+ \node[draw,ellipse,minimum height=.8cm,minimum width=.8cm,thick,color=red] at (2.3,1.6) (select) {};
+ \node[] at (-4,-0.4) (windows_desktop) {\includegraphics[width=.4\textwidth] {images/cloudstack-windows-desktop.png}};
+ \path[->, thick, color=red] (select.south) edge [bend left] (windows_desktop.east);
+
+\end{tikzpicture}
 \end{frame}
 
 
