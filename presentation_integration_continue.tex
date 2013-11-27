@@ -1,11 +1,13 @@
 %  Beamer slide example.
 
 \documentclass[9pt]{beamer}
+% \setbeameroption{show only notes}
+%\setbeameroption{show notes}
+
 \usepackage[utf8]{inputenc}
 \usetheme{inria}
 \usepackage{helvet}
 \usepackage{graphicx}
-\usepackage{nameref}
 
 \author{Maurice Bremond \and Gaëtan Harter}
 
@@ -30,7 +32,7 @@
 }
 
 % frame with toc for current subsection
-\newcommand{\tocsubsection}{
+\newcommand{\tocsubsection}[1]{
   \begin{frame}
     \tableofcontents[
       currentsubsection,
@@ -38,6 +40,7 @@
       subsectionstyle=show/shaded,
       subsubsectionstyle=show/show/shaded
     ]
+    #1
   \end{frame}
 }
 % starting the document
@@ -83,39 +86,65 @@
 % *******************
 \inriaswitchcolors{green}
 \section{Un retour d'expérience}
-\frame{\tableofcontents[currentsection]}
+\frame{\tableofcontents[currentsection]
+  \note{Vous avez besoin d'intégration continue\\}
+  \note{Exemple mon expérience personnelle}
+}
 
 \subsection{Contexte de développement}
-\tocsubsection
+\tocsubsection{\note{Justifié de le faire pour moi, vous reconnaître sur certains points}}
 
-\subsubsection{Plateforme de réseau de capteurs: FIT IOT-LAB}
+\subsubsection{FIT Equipex - Future Internet of Things}
 \begin{frame}{\subsubsecname} %{\subsecname}
-  \setbeamercovered{transparent}
-  \begin{itemize}
-    \item <2->{Plateforme de réservation et expérimentation pour matériel réseau sans fil}
-    \item <2->{Utilisé par des chercheurs depuis leur bureau}
-    \item <2->{Déploiement à large échelle, 3000 nœuds capteurs}
-    \item <2->{Projet d'une durée de 10ans}
-  \end{itemize}
-  \onslide <3-> ~\\~\\ Réservation, configuration et mise à disposition de nœuds capteurs.
+  \note[item]{Equipex: 'equipement excellence' projet FR}
+  \note[item]{Future Internet of Thing.}
+  \note[item]{plusieurs plateformes}
+  \note[item]{Durée de 10 ans}
+  \note[item]{}
+  \note[item]{IOT-LAB - description slide suivant}
+
+  \begin{center}
+    \begin{tabular}{ l l }
+      \includegraphics[width=0.2\textwidth]{images/logo_invest_avenir} &
+      \includegraphics[width=0.5\textwidth]{images/fit_equipex} \\
+    \end{tabular}
+  \end{center}
 \end{frame}
 
 
+\subsubsection{Plateforme de réseau de capteurs: FIT IoT-LAB}
 \begin{frame}{\subsubsecname} %{\subsecname}
+  \includegraphics[width=\textwidth]{images/senslab_nodes}
+  \note[item]{IoT-LAB: réseaux de capteurs 'objets connectés', 3000}
+  \note[item]{Objets qui communiquent courte distance, et joignable depuis l'internet}
+  \note[item]{Mis à disposition des chercheurs}
+  \note[item]{2 générations de capteurs}
+\end{frame}
 
-  IMAGE DE LA PLATEFORME COMPLETE
+\begin{frame}{\subsubsecname} %{\subsecname}
+  \includegraphics[width=\textwidth]{images/fit_architecture}
+  \note{Exemple d'un chercheur voulant expérimenter sur les réseaux de capteurs}
+  \note[item]{Se connecter sur l'interface web}
+  \note[item]{Réserver un grand nombre de nœuds capteurs (3k dispos)}
+  \note[item]{Déployer des programmes dessus}
+  \note[item]{Interragir avec eux par connection série}
+  \note[item]{Monitorer leur fonctionnement, conso, radio}
+\end{frame}
 
+
+\subsubsection{Un nœud capteur IoT-LAB}
+\begin{frame}{\subsubsecname} %{\subsecname}
+  \includegraphics[width=\textwidth]{images/gateway_m3_annote}
 \end{frame}
 
 \subsubsection{Contexte de l'application}
 \begin{frame}{\subsubsecname} %{\subsecname}
   \begin{itemize}
-    \item Application mise en production
+    \item Python + C (+ outils compilés externes)
+    \item Application mise en production (QoS)
     \item Exécution sur une carte ARM avec Linux embarqué (perf...)
-    \item Commande par interface REST (web)
-    \item Interaction par port série avec un OS temps réel sur un micro-contrôleur
+    \item Intéractions extérieures
     \item multithread, multiprocess
-    \item Il faut préserver les interfaces à tout moment
   \end{itemize}
 \end{frame}
 
@@ -123,17 +152,54 @@
 \subsubsection{Pourquoi avoir mis place de l'intégration continue}
 \begin{frame}{\subsubsecname} %{\subsecname}
   \begin{itemize}
-    \item Une pratique qui m'intéresse
+    \item Sources d'erreurs non déterministes
+      \note[item]{Dépendance à du matériel}
+      \note[item]{Dépendance à des programmes qui ne sont pas sur la même machine}
+      \note[item]{Multithread et multiprocess}
+      \note[item]{}
     \item Logiciel final doit être fiable
-    \item Source d'erreurs aléatoires
-    \item Déployé à large échelle
+      \note[item]{service 24/7}
+      \note[item]{Coût d'un bug: Debug, mise à jour}
+      \note[item]{Large échelle, proba d'apparition d'un bug}
+      \note[item]{}
+    \item J'avais envie d'essayer
+    \item La chose qui m'a décidée…
   \end{itemize}
+\end{frame}
+
+\subsubsection{J'avais besoin d'un seul test}
+\begin{frame}[fragile]{\subsubsecname} %{\subsecname}
+  \setbeamercovered{transparent}
+
+  \begin{verbatim}
+
+  def thread_redirection(self):
+      while not self.stop:
+          self.proc = subprocess.Popen(['socat', ...)
+          self.proc.wait()
+          if 0 != self.proc.returncode:
+              # Gestion de l'erreur
+
+  def stop(self):
+      while self.is_alive():
+          self.proc.terminate()
+          time.sleep(0.1)
+
+  \end{verbatim}
+
+  \onslide <2-> Test sur carte: '\texttt{ImportError: No module named arpgarse}'
+
+
 \end{frame}
 
 
 
 \subsection{Outils mis en place}
-\tocsubsection
+\tocsubsection{
+  \note[item]{Juste une overview, un exemple}
+  \note[item]{Quelques possibilité et contraintes}
+  \note[item]{En utilisant ci.inria.fr}
+}
 
 \subsubsection{Présentation des outils}
 \begin{frame}{Outils mis en place}
@@ -141,10 +207,10 @@
   Gestionnaire de versions: \texttt{git} \\ ~ \\
 
   \begin{tabular}{ l | l l | p{3.5cm} }
-    Language         & \texttt{Python}     & \texttt{C}    & Utilisation dans Jenkins \\ \hline
+    Language         & \texttt{Python}     & \texttt{C}    & Exploitation dans Jenkins \\ \hline
     Script de build  & \texttt{setuptools} & \texttt{Make} & Bash~shell, \texttt{EnvInject} \texttt{virtualenv}\\
     Compilation      & ~                   & \texttt{gcc}  & ~ \\
-    Tests            & \texttt{unittest}, \texttt{mock}, \texttt{nose}
+    Tests            & \texttt{nose}, \texttt{unittest}, \texttt{mock}
                      & \texttt{gtest} \texttt{(C++)}
                      & Junit, Chuck Norris\\
     Couverture       & \texttt{nose-xcover}
@@ -157,7 +223,13 @@
 % 1600 tests U + 400 tests intégration
     Lignes de build  &  $300$         &  $170$   &  $50$ \\
 
-% (SQLite 3.8 == 1084 * plus de tests que de code 84k source (hors blank et commentaires))
+    \note[item]{Gestion de version, partagée avec d'autres projets}
+    \note[item]{Correspondance entre outils mis en place et Jenkins, \textbf{fichiers générés}}
+    \note[item]{Types d'outils les uns après les autres}
+    \note[item]{Pylint remplace compilation python}
+    \note[item]{}
+    \note[item]{1600 tests U + 400 tests intégration}
+    \note[item]{SQLite 3.8 == 1084 * plus de tests que de code 84k source (hors blank et commentaires)}
   \end{tabular}
 \end{frame}
 
@@ -165,6 +237,9 @@
 \subsubsection{Jenkins}
 \begin{frame}{Présentation outils}{Jenkins}
   \includegraphics[width=\linewidth]{images/jenkins}
+  \note[item]{2 types}
+  \note[item]{Sur carte cible \textbf{Thales}}
+  \note[item]{Lancement des tests, à la main et toute les nuits}
 \end{frame}
 
 \begin{frame}{Configuration d'un build}{Jenkins}
@@ -210,44 +285,42 @@
 
 \subsubsection{Développement logiciel}
 \begin{frame}{\subsubsecname}{\subsecname}
-  \setbeamercovered{transparent}
+  \note{GROS SLIDE}
 
   \begin{itemize}
-    \item <2-> Mise en place d'un script de \texttt{build}
-      \begin{itemize}
-        \item Mise en place d'une procédure de test (pouvoir écrire et lancer un test)
-        \item Procédure simple et conditionnée dans un script
-      % \item Adhérence aux conventions d'architecture du language
-      \end{itemize}
-    \item <3->Tests nombreux et lancés en continue
-      \begin{itemize}
-        \item Apparition et gestion des cas d'erreurs (cas 'rares')
-        \item Détection de problèmes tot (performance, permissions)
-        \item Simplification de l'implémentation pour la testabilité
-        \item Ajout au fur et à mesure des fonctionnalités (non régression)
-      % \item Suivi des bugs
-      \end{itemize}
-    \item <4-> Couverture de code
-      \begin{itemize}
-        \item Même si $<100\%$, savoir ce qui est 'validé' et ce qui ne l'est pas
-      \end{itemize}
-    \item <5-> Qualité de code (Python)
-      \begin{itemize}
-        \item Remplace la phase de compilation (vérification syntaxique)
-        \item Détection statique d'erreurs
-        \item Standardisation de la mise en forme, lisibilité (PEP8)
-      \end{itemize}
+    \item Mise en place d'un script de \texttt{build}
+      \note[item]{Procédure de test, même 1 seul test}
+      \note[item]{Procédure simple dans un script}
+      \note[item]{}
+    \item Tests nombreux et lancés en continu
+      \note[item]{Gestion des cas d'erreurs}
+      \note[item]{Détection de problèmes tot (perf réimplèm en C}
+      \note[item]{simplification de l'implem}
+      \note[item]{dev itératif}
+      \note[item]{Detection d'erreurs rares}
+      \note[item]{}
+    \item Couverture de code
+      \note[item]{Même si $<100\%$, savoir ce qui est 'validé' et ce qui ne l'est pas}
+    \item Qualité de code
+      \note[item]{Python: Remplace la phase de compilation (vérification syntaxique)}
+      \note[item]{Détection statique d'erreurs}
+      \note[item]{Standardisation de la mise en forme, lisibilité (PEP8)}
+      \note[item]{}
   \end{itemize}
-  \onslide <6-> Maîtrise et confiance dans le logiciel développé
+  Maîtrise et confiance dans le logiciel développé
 \end{frame}
 
 \subsubsection{Personnel}
 \begin{frame}{\subsubsecname}{\subsecname}
   \begin{itemize}
     \item Découverte de beaucoup d'outils
-    \item Confort dans le développement (non régression)
+    \item Maîtrise des languages et leur écosystème
+    \item Confort dans le développement
     \item Retours positifs après premières utilisations
+    \item J'aimerai maintenant pouvoir l'appliquer à d'autres choses
   \end{itemize}
+  \note[item]{Rassurant}
+  \note[item]{Je peux tester!}
 \end{frame}
 
 \subsubsection{Voies d'amélioration}
@@ -259,5 +332,11 @@
     \item 100\% de couverture de code
   \end{itemize}
 \end{frame}
+
+
+\begin{frame}{The End}
+  Merci d'avoir écouté.
+\end{frame}
+
 
 \end{document}

@@ -8,18 +8,21 @@ digraph g {
     ];
 
 
-    "user1" [ shape = "ellipse"];
-    "user1" -> "Web interface" [minlen=4]
-    "user2" -> "Web interface" [minlen=4]
-    "user3" -> "Web interface" [minlen=4]
-    "user4" -> "Web interface" [minlen=4]
+    "Chercheur 1" [ shape = "ellipse"];
+    "Chercheur 2" [ shape = "ellipse"];
+    "Chercheur 3" [ shape = "ellipse"];
+    "Chercheur 4" [ shape = "ellipse"];
+    "Chercheur 1" -> "Interface Web" [minlen=4]
+    "Chercheur 2" -> "Interface Web" [minlen=4]
+    "Chercheur 3" -> "Interface Web" [minlen=4]
+    "Chercheur 4" -> "Interface Web" [minlen=4]
 
     "EH Rennes" [ label = "Serveur en Java | Rennes" ];
     "EH Grenoble" [ label = "Serveur en Java | Grenoble" ];
     "EH Strasbourg" [ label = "Serveur en Java | Strasbourg" ];
-    "Web interface" -> "EH Grenoble"
-    "Web interface" -> "EH Rennes"
-    "Web interface" -> "EH Strasbourg"
+    "Interface Web" -> "EH Grenoble"
+    "Interface Web" -> "EH Rennes"
+    "Interface Web" -> "EH Strasbourg"
 
     "Nœuds Rennes…" [shape=ellipse]
     "Nœud 1" [shape=ellipse]
