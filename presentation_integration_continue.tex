@@ -499,17 +499,17 @@
 
   \begin{verbatim}
 
-  def thread_redirection(self):
-      while not self.stop:
-          self.proc = subprocess.Popen(['socat', ...)
-          self.proc.wait()
-          if 0 != self.proc.returncode:
-              # Gestion de l'erreur
+def thread_redirection(self):
+    while not self.stop:
+        self.proc = subprocess.Popen(['socat', ...)
+        self.proc.wait()
+        if 0 != self.proc.returncode:
+            # Gestion de l'erreur
 
-    def stop(self):
-        while self.is_alive():
-        self.proc.terminate()
-        time.sleep(0.1)
+def stop(self):
+    while self.is_alive():
+    self.proc.terminate()
+    time.sleep(0.1)
 
   \end{verbatim}
 
