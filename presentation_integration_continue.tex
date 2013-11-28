@@ -14,7 +14,9 @@
 \tikzset{
   mstep1/.style = {basic, rounded corners=2pt, thin, align=center, fill=orange!70,text width=1.5cm},
   mstep2/.style = {basic, rounded corners=2pt, thin, align=center, fill=green!30,text width=1.5cm},
-  mstep3/.style = {basic, rounded corners=2pt, thin, align=center, fill=green!30,text width=5cm},
+  mstep2b/.style = {basic, rounded corners=2pt, thin, align=center, fill=white,text width=2cm},
+  mstep3/.style = {basic, rounded corners=2pt, thin, align=center, fill=green!30,text width=3cm},
+  mstep3b/.style = {basic, rounded corners=2pt, thin, align=center,fill=white,text width=7cm},
   mstep4/.style = {basic, thin, align=left, fill=gray!60, text width=6.5em},
   basic/.style  = {draw, text width=2cm, drop shadow, font=\sffamily, rectangle},
   root/.style   = {basic, rounded corners=2pt, thin, align=center,
@@ -95,7 +97,7 @@
 \inriaswitchcolors{red}
 \section{Quid de l'intégration continue}
 
-\subsection{Une définition}
+\subsection{Définition}
 
 \begin{frame}{En quelques mots}
 \begin{block}{Le processus d'intégration d'un logiciel : une chaine de production}
@@ -139,6 +141,7 @@
 \end{frame}
 
 \subsection{Pourquoi et ce que cela implique}
+
 \begin{frame}{Intégration continue}
 
   \begin{block}{Pourquoi ?}
@@ -163,44 +166,47 @@
 \end{block}
 \end{frame}
 
-\subsection{Problématiques autour de l'automatisation du ``build''}
+\subsection{Problématiques autour des automatisations nécessaires}
 \begin{frame}{Automatisation de l'étape de production}
-\begin{columns}[t]
- \column{.7\textwidth}
-\begin{block}{problématiques intrinsèques}
+\begin{tikzpicture}
+\node[mstep3b] (intrinsics) {
+\textcolor{gray}{Problématiques intrinsèques}
   \begin{itemize}
   \item dépendances entre fichiers sources et cibles compilées
   \item rêgles de compilation
   \item cible ``debug'', cible optimisée
   \item type de librairie : partagée, statique
   \item \dots
-  \end{itemize}
-\end{block}
-\begin{block}{problématiques liées à l'environnement système}
+  \end{itemize}};
+\node[below=1cm of intrinsics,mstep3b] (extrinsics) {
+\textcolor{gray}{ Problématiques liées à l'environnement système}
   \begin{itemize}
   \item quel compilateur, quel ``runtime'' ?
   \item quels arguments ?
+  \item où sont les librairies externes ?
   \item éditions de liens avec les librairies externes
   \item \dots
-  \end{itemize}
-\end{block}
- \column{.3\textwidth}
-\begin{block}{des moteurs de production}
+  \end{itemize}};
+\node [right=1.3cm of intrinsics,mstep1] (make) {make};
+\node [below=.5cm of make,mstep3] (build_tools) {
   \begin{itemize}
-  \item make
   \item autotools
   \item cmake
   \item scons
   \item qmake
   \item \dots
-  \end{itemize}
-\end{block}
-\end{columns}
+  \end{itemize}};
 
+\node[above=.1cm of build_tools] (build_tools_north) {};
+\node[below=.1cm of build_tools] (build_tools_south) {};
+\path[->, thick, color=red,dotted] (intrinsics.east) edge [] (make.west);
+\path[->, thick, color=red,dotted] (intrinsics.east) edge [] (build_tools.north west);
+\path[->, thick, color=red,dotted] (extrinsics.east) edge [] (build_tools.south west);
+\end{tikzpicture}
 \end{frame}
 
 \subsection{Problématiques autour des tests}
-\begin{frame}{L'automatisation de l'étape de tests}
+\begin{frame}{Les tests : problématiques et outils}
 
 %
 %    2.1 Maintain a code repository
@@ -231,13 +237,40 @@
     \begin{scope}[every node/.style={level 3}]
       \node [below of = c1, xshift=15pt] (c11) {rêgles de codages};
       \node [below of = c11] (c12) {analyses statiques};
-
       \node [below of = c2, xshift=15pt] (c21) {tests unitaires};
       \node [below of = c21,mstep4] (c22) {tests fonctionnels};
       \node [below of = c22,mstep4] (c23) {tests systèmes};
       \node [below of = c23,mstep4] (c24) {tests de performances};
-      \node [right of = c21,xshift=2cm] (dynamic_analysis) {analyses dynamiques};
+      \node [right of = c21,xshift=1.6cm] (dynamic_analysis) {analyses dynamiques};
+      \node [below=.9cm of c12,mstep2b] (static_an) {\scriptsize
+        - pylint (python) \\
+        - clang static analyzer (C,C++) \\
+        - \dots
+      };
     \end{scope}
+      \node[left=.9cm of c11,mstep2b] (codage) {\scriptsize
+        - pep8 (python)  \\
+        - KWStyle (C,C++) \\
+        - \dots
+      };
+      \node[above=.7cm of dynamic_analysis,mstep2b] (dynamic_analysis_tools) {\scriptsize
+        - couverture de code (gcov, \dots) \\
+        - gestion mémoire (valgrind) \\
+        - \dots
+      };
+      \node[below=.7cm of dynamic_analysis,mstep2b] (unit_tests_tools) {\scriptsize
+        - cppunit (C++) \\
+        - unittest, py.test (python) \\
+        - \dots
+      };
+      \draw[<-, >=latex', shorten >=2pt, shorten <=2pt, thick, color=gray, bend right=45,dashed]
+      (c11.north west) to node[auto, swap] {} (codage.north east);
+      \draw[<-, >=latex', shorten >=2pt, shorten <=2pt, thick, color=gray, bend right=45,dashed]
+      (c12.south) to node[auto, swap] {} (static_an.north);
+      \draw[->, >=latex', shorten >=2pt, shorten <=2pt, thick, color=gray, bend right=45,dashed]
+      (dynamic_analysis_tools.south) to node[auto, swap] {} (dynamic_analysis.north);
+      \draw[->, >=latex', shorten >=2pt, shorten <=2pt, thick, color=gray,dashed]
+      (unit_tests_tools.north west) to node[auto, swap] {} (c21.south east);
 
 % lines from each level 1 node to every one of its "children"
     \draw[->] (c21.east) |- (dynamic_analysis.west);
@@ -285,7 +318,11 @@
   \node[below=1cm of build,mstep2] (tests) {tests};
   \node[below=1cm of tests,mstep2] (install) {installation paquetage};
   \node[right=2cm of build] (build_r1) {};
-  \node[below=.2cm of build_r1,mstep2] (build_r) {collectes des résultats};
+  \node[below=.2cm of build_r1,mstep1] (build_r) {collecte des résultats};
+  \node[right=1cm of build_r,mstep2] (build_r_a) {affichage};
+  \node[above=1cm of build_r_a,mstep2b] (tools) {\scriptsize - Buildbot (Python) \\
+  - \alert{Jenkins} (java) \\
+  - \dots};
   \draw[->, >=latex', shorten >=2pt, shorten <=2pt, thick, dashed]
   (code_repo.south) to node[auto, swap] {monitoring + update} (build.north);
   \draw[->, >=latex', shorten >=2pt, shorten <=2pt, thick, dashed]
@@ -296,6 +333,8 @@
   (build.east) to node[auto, swap] {} (build_r.west);
   \draw[->, >=latex', shorten >=2pt, shorten <=2pt, thick, dashed]
   (tests.east) to node[auto, swap] {} (build_r.west);
+  \draw[->, >=latex', shorten >=2pt, shorten <=2pt, thick, dashed]
+  (build_r.east) to node[auto, swap] {} (build_r_a.west);
 %  \path[->,thick,color=gray] (code_repo) edge [] (build);
 \end{tikzpicture}
 \end{frame}
@@ -315,6 +354,13 @@
     \node[right=1.1cm of root_south,draw,rectangle,thick,drop shadow,color=gray,rounded corners=2pt] (ci_doc)  {\includegraphics[width=.9\textwidth] {images/ci-doc.png}};
     \node[draw,ellipse,minimum height=.8cm,minimum width=2.5cm,thick,color=red] at (.7,0.9) (ok) {};
     \path[->, thick, color=red] (.6,.2) edge [bend right] (.9,-.2);
+
+    \node[above=3cm of root,mstep1] (frontale) {Frontale Web};
+    \node[right=2cm of frontale] (t0) {};
+    \node[above=.5cm of t0,mstep2] (cloudstack) {CloudStack};
+    \node[below=.5cm of t0,mstep2] (jenkins) {Jenkins};
+    \path[->, thick, color=blue] (frontale.east) edge [] (cloudstack.west);
+    \path[->, thick, color=blue] (frontale.east) edge [] (jenkins.west);
   \end{tikzpicture}
 \end{frame}
 
@@ -324,7 +370,7 @@
   \end{tikzpicture}
 \end{frame}
 
-\begin{frame}{Gestion simple des machines virtuelles associées}
+\begin{frame}{Interface haut niveau pour les machines virtuelles associées}
 
 \begin{tikzpicture}
  \node[] (project)  {\includegraphics[width=.9\textwidth] {images/ci-slaves.png}};
