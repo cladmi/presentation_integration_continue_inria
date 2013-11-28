@@ -97,7 +97,7 @@
 \inriaswitchcolors{red}
 \section{Quid de l'intégration continue}
 
-\subsection{Définition, pourquoi et ce que cela implique}
+\subsection{Définition}
 
 \begin{frame}{En quelques mots}
 \begin{block}{Le processus d'intégration d'un logiciel : une chaine de production}
@@ -139,6 +139,8 @@
 \end{itemize}
 \end{block}
 \end{frame}
+
+\subsection{Pourquoi et ce que cela implique}
 
 \begin{frame}{Intégration continue}
 
@@ -204,7 +206,7 @@
 \end{frame}
 
 \subsection{Problématiques autour des tests}
-\begin{frame}{L'automatisation de l'étape de tests}
+\begin{frame}{Les tests : problématiques et outils}
 
 %
 %    2.1 Maintain a code repository
@@ -316,7 +318,11 @@
   \node[below=1cm of build,mstep2] (tests) {tests};
   \node[below=1cm of tests,mstep2] (install) {installation paquetage};
   \node[right=2cm of build] (build_r1) {};
-  \node[below=.2cm of build_r1,mstep2] (build_r) {collecte des résultats};
+  \node[below=.2cm of build_r1,mstep1] (build_r) {collecte des résultats};
+  \node[right=1cm of build_r,mstep2] (build_r_a) {affichage};
+  \node[above=1cm of build_r_a,mstep2b] (tools) {\scriptsize - Buildbot (Python) \\
+  - \alert{Jenkins} (java) \\
+  - \dots};
   \draw[->, >=latex', shorten >=2pt, shorten <=2pt, thick, dashed] 
   (code_repo.south) to node[auto, swap] {monitoring + update} (build.north);
   \draw[->, >=latex', shorten >=2pt, shorten <=2pt, thick, dashed] 
@@ -327,6 +333,8 @@
   (build.east) to node[auto, swap] {} (build_r.west);
   \draw[->, >=latex', shorten >=2pt, shorten <=2pt, thick, dashed] 
   (tests.east) to node[auto, swap] {} (build_r.west);
+  \draw[->, >=latex', shorten >=2pt, shorten <=2pt, thick, dashed] 
+  (build_r.east) to node[auto, swap] {} (build_r_a.west);
 %  \path[->,thick,color=gray] (code_repo) edge [] (build);
 \end{tikzpicture}
 \end{frame}
@@ -346,6 +354,13 @@
     \node[right=1.1cm of root_south,draw,rectangle,thick,drop shadow,color=gray,rounded corners=2pt] (ci_doc)  {\includegraphics[width=.9\textwidth] {images/ci-doc.png}};
     \node[draw,ellipse,minimum height=.8cm,minimum width=2.5cm,thick,color=red] at (.7,0.9) (ok) {};
     \path[->, thick, color=red] (.6,.2) edge [bend right] (.9,-.2);
+
+    \node[above=3cm of root,mstep1] (frontale) {Frontale Web};
+    \node[right=2cm of frontale] (t0) {};
+    \node[above=.5cm of t0,mstep2] (cloudstack) {CloudStack};
+    \node[below=.5cm of t0,mstep2] (jenkins) {Jenkins};
+    \path[->, thick, color=blue] (frontale.east) edge [] (cloudstack.west);
+    \path[->, thick, color=blue] (frontale.east) edge [] (jenkins.west);
   \end{tikzpicture}
 \end{frame}
 
