@@ -1,7 +1,7 @@
 %  Beamer slide example.
 
 \documentclass[9pt]{beamer}
-% \setbeameroption{show only notes}
+%\setbeameroption{show only notes}
 %\setbeameroption{show notes}
 
 \usepackage[utf8]{inputenc}
@@ -149,12 +149,12 @@
     \begin{itemize}
     \item les régressions dans les tests
     \item les régressions dans la portabilité
-    \item les codes difficiles à fusionner 
+    \item les codes difficiles à fusionner
     \item \dots
   \end{itemize}
-  
+
   \textbf{L'intégration continue est liée à une méthode de travail}
-  
+
 \end{block}
 
 \begin{block}{Ce que cela implique :}
@@ -241,10 +241,10 @@
       \node [below of = c22,mstep4] (c23) {tests systèmes};
       \node [below of = c23,mstep4] (c24) {tests de performances};
       \node [right of = c21,xshift=1.6cm] (dynamic_analysis) {analyses dynamiques};
-      \node [below=.9cm of c12,mstep2b] (static_an) {\scriptsize 
+      \node [below=.9cm of c12,mstep2b] (static_an) {\scriptsize
         - pylint (python) \\
         - clang static analyzer (C,C++) \\
-        - \dots       
+        - \dots
       };
     \end{scope}
       \node[left=.9cm of c11,mstep2b] (codage) {\scriptsize
@@ -262,13 +262,13 @@
         - unittest, py.test (python) \\
         - \dots
       };
-      \draw[<-, >=latex', shorten >=2pt, shorten <=2pt, thick, color=gray, bend right=45,dashed] 
+      \draw[<-, >=latex', shorten >=2pt, shorten <=2pt, thick, color=gray, bend right=45,dashed]
       (c11.north west) to node[auto, swap] {} (codage.north east);
-      \draw[<-, >=latex', shorten >=2pt, shorten <=2pt, thick, color=gray, bend right=45,dashed] 
+      \draw[<-, >=latex', shorten >=2pt, shorten <=2pt, thick, color=gray, bend right=45,dashed]
       (c12.south) to node[auto, swap] {} (static_an.north);
-      \draw[->, >=latex', shorten >=2pt, shorten <=2pt, thick, color=gray, bend right=45,dashed] 
+      \draw[->, >=latex', shorten >=2pt, shorten <=2pt, thick, color=gray, bend right=45,dashed]
       (dynamic_analysis_tools.south) to node[auto, swap] {} (dynamic_analysis.north);
-      \draw[->, >=latex', shorten >=2pt, shorten <=2pt, thick, color=gray,dashed] 
+      \draw[->, >=latex', shorten >=2pt, shorten <=2pt, thick, color=gray,dashed]
       (unit_tests_tools.north west) to node[auto, swap] {} (c21.south east);
 
 % lines from each level 1 node to every one of its "children"
@@ -321,17 +321,17 @@
   \node[above=1cm of build_r_a,mstep2b] (tools) {\scriptsize - Buildbot (Python) \\
   - \alert{Jenkins} (java) \\
   - \dots};
-  \draw[->, >=latex', shorten >=2pt, shorten <=2pt, thick, dashed] 
+  \draw[->, >=latex', shorten >=2pt, shorten <=2pt, thick, dashed]
   (code_repo.south) to node[auto, swap] {monitoring + update} (build.north);
-  \draw[->, >=latex', shorten >=2pt, shorten <=2pt, thick, dashed] 
+  \draw[->, >=latex', shorten >=2pt, shorten <=2pt, thick, dashed]
   (build.south) to node[auto, swap] {séquencement} (tests.north);
-  \draw[->, >=latex', shorten >=2pt, shorten <=2pt, thick, dashed] 
+  \draw[->, >=latex', shorten >=2pt, shorten <=2pt, thick, dashed]
   (tests.south) to node[auto, swap] {séquencement} (install.north);
-  \draw[->, >=latex', shorten >=2pt, shorten <=2pt, thick, dashed] 
+  \draw[->, >=latex', shorten >=2pt, shorten <=2pt, thick, dashed]
   (build.east) to node[auto, swap] {} (build_r.west);
-  \draw[->, >=latex', shorten >=2pt, shorten <=2pt, thick, dashed] 
+  \draw[->, >=latex', shorten >=2pt, shorten <=2pt, thick, dashed]
   (tests.east) to node[auto, swap] {} (build_r.west);
-  \draw[->, >=latex', shorten >=2pt, shorten <=2pt, thick, dashed] 
+  \draw[->, >=latex', shorten >=2pt, shorten <=2pt, thick, dashed]
   (build_r.east) to node[auto, swap] {} (build_r_a.west);
 %  \path[->,thick,color=gray] (code_repo) edge [] (build);
 \end{tikzpicture}
@@ -519,6 +519,10 @@
 \end{frame}
 
 
+
+%
+%  Outils mis en place
+%
 \subsection{Outils mis en place}
 \tocsubsection{
   \note[item]{Juste une overview, un exemple}
@@ -526,13 +530,61 @@
   \note[item]{En utilisant ci.inria.fr}
 }
 
+\subsubsection{Mise en place d'un \texttt{build}}
+\begin{frame}{\subsubsecname} % {\subsecname}
+  \setbeamercovered{transparent}
+
+  \onslide <1-> Script \textbf{automatisé} et \textbf{autotesté} qui va réaliser la validation du logicel.
+  \\ ~\\
+  \begin{itemize}
+    \item <2-> Compilation
+    \item <2-> Exécution des tests (unitaires et fonctionnels)
+    \item <2-> Inspection automatique de code
+      \begin{itemize}
+        \item <2-> évaluation de la qualité de code par analyse statique
+      \end{itemize}
+    \item <2-> Génération de documentation
+      \begin{itemize}
+        \item <2-> Rapports de tests (couverture de code)
+        \item <2-> Documentation technique
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+
+
+\subsubsection{Exemple d'un test Python}
+\begin{frame}[fragile]{\subsubsecname} % {\subsecname}
+
+\begin{verbatim}
+import unittest
+
+class WidgetTestCase(unittest.TestCase):
+    def setUp(self):
+        self.widget = Widget('The widget')
+
+    def tearDown(self):
+        self.widget.dispose()
+        self.widget = None
+
+    def test_default_size(self):
+        self.assertEqual(self.widget.size(), (50,50),
+                         'incorrect default size')
+
+    def test_resize(self):
+        self.widget.resize(100,150)
+        self.assertEqual(self.widget.size(), (100,150),
+                         'wrong size after resize')
+
+\end{verbatim}
+\end{frame}
+
 \subsubsection{Présentation des outils}
 \begin{frame}{Outils mis en place}
 
   Gestionnaire de versions: \texttt{git} \\ ~ \\
 
   \begin{tabular}{ l | l l | p{3.5cm} }
-    Language         & \texttt{Python}     & \texttt{C}    & Exploitation dans Jenkins \\ \hline
+    Language         & \texttt{Python}     & \texttt{C}    & Utiisation dans Jenkins \\ \hline
     Script de build  & \texttt{setuptools} & \texttt{Make} & Bash~shell, \texttt{EnvInject} \texttt{virtualenv}\\
     Compilation      & ~                   & \texttt{gcc}  & ~ \\
     Tests            & \texttt{nose}, \texttt{unittest}, \texttt{mock}
@@ -626,6 +678,7 @@
       \note[item]{}
     \item Couverture de code
       \note[item]{Même si $<100\%$, savoir ce qui est 'validé' et ce qui ne l'est pas}
+      \note[item]{}
     \item Qualité de code
       \note[item]{Python: Remplace la phase de compilation (vérification syntaxique)}
       \note[item]{Détection statique d'erreurs}
